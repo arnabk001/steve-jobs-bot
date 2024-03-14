@@ -283,8 +283,8 @@ class Head_Agent:
 
     def setup_sub_agents(self):
         # TODO: Setup the sub-agents
-        # self.mode = "Chatty"
-        self.mode = "Simple"
+        self.mode = "Chatty"
+        # self.mode = "Simple"
         #self.mode = "Concise"   
 
     def main_loop(self):
