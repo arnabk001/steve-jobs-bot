@@ -10,12 +10,12 @@ import string
 
 class Obnoxious_Agent:
     def __init__(self, client) -> None:
-        # TODO: Initialize the client and prompt for the Obnoxious_Agent
+        # Initialize the client and prompt for the Obnoxious_Agent
         self.client = client
         self.set_prompt()
 
     def set_prompt(self, prompt=None):
-        # TODO: Set the prompt for the Obnoxious_Agent
+        # Set the prompt for the Obnoxious_Agent
         if prompt:
             self.prompt = prompt
         else:
@@ -55,7 +55,7 @@ class Obnoxious_Agent:
             Here is your input : """
 
     def extract_action(self, response) -> bool:
-        # TODO: Extract the action from the response
+        # Extract the action from the response
         # Handoing case insensitivity
         if "yes" in response.lower():
           return True
@@ -64,7 +64,7 @@ class Obnoxious_Agent:
           return False
 
     def check_query(self, query):
-        # TODO: Check if the query is obnoxious or not
+        # Check if the query is obnoxious or not
         print ("Checking for Obnoxious Query")
         
         response = self.client.chat.completions.create(
@@ -76,7 +76,7 @@ class Obnoxious_Agent:
 
 class Query_Agent:
     def __init__(self, pinecone_index, openai_client, embeddings=None) -> None:
-        # TODO: Initialize the Query_Agent agent
+        # Initialize the Query_Agent agent
         self.openai_client = openai_client
         self.pinecone_index = pinecone_index
         self.embeddings = embeddings
@@ -97,7 +97,7 @@ class Query_Agent:
         return response
 
     def extract_action(self, response, query = None):
-        # TODO: Extract the action from the response
+        # Extract the action from the response
         # Extracting the text/chunks data
         extracted_text = ""
         for match in response['matches'][:self.top_k]:
@@ -111,11 +111,11 @@ class Query_Agent:
 
 class Answering_Agent:
     def __init__(self, openai_client) -> None:
-        # TODO: Initialize the Answering_Agent
+        # Initialize the Answering_Agent
         self.openai_client = openai_client
 
     def generate_response(self, query, docs, conv_history, k=5, mode="Simple", conversation_type = "conversational"):
-        # TODO: Generate a response to the user's query
+        # Generate a response to the user's query
         
         if mode == "Concise":
             mode_prompt = f"Make the answer concise and to the point. \n"
@@ -180,7 +180,7 @@ class Relevant_Documents_Agent:
         self.openai_client = openai_client
 
     def get_relevance(self, query, conversation_history) ->str:
-        # TODO: Get if the returned documents are relevant
+        # Get if the returned documents are relevant
         # print(conversation[-1]  )
         # print(conversation[-3:])
         # check the size of the conversation history
@@ -356,7 +356,7 @@ class Head_Agent:
                         
                         else :
                             
-                            print ("messages : ", messages)
+                            print ("messages: ", messages)
                             user_messages = [message for sender, message in messages if sender == 'user']
                             if "followup" in is_rel.lower() or self.mode == "Chatty":
                                 # increment the mode to detailed ie. detailed response or increase the context from pinecone
@@ -391,7 +391,7 @@ class Head_Agent:
                             
                             Example:\n
 
-                            If the user query is a followup question like ['tell me more' or 'tell me about it'] and the preceding conversation includes a question about Steve Jobs's work, 
+                            If the user query is a follow-up question like ['tell me more' or 'tell me about it'] and the preceding conversation includes a question about Steve Jobs's work, 
                             the prompt you generate should be 'Explain in more detail about Steve Jobs's work'.\n
                             Remember, keep the prompt succinct and directly relevant to the user's query."
                             """
@@ -401,7 +401,7 @@ class Head_Agent:
                             messages=[{"role": "user", "content": APE_prompt}]
                             )
 
-                            print ("APE Response : ", response.choices[0].message.content)
+                            print ("APE Response: ", response.choices[0].message.content)
                             Pinecone_prompt = response.choices[0].message.content
                             print("Pinecone Prompt : ", Pinecone_prompt)
                             
@@ -424,18 +424,18 @@ class Head_Agent:
         st.session_state.messages = messages
 
 
-    # Define a function to get the conversation history (Not required for Part-2, will be useful in Part-3)
+    # Define a function to get the conversation history
     def get_conversation(self, messages):
         # ... (code for getting conversation history)
         return "\n".join([f"{role}: {content}" for role, content in messages])
 
 # Calling the main function
 def main():
-    st.title("Mini Project 2: Steve Jobs Impersonator")
+    st.title("Steve Jobs [Bot]")
     # Set the OpenAI and Pinecone keys
-    openai_key = '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'
-    pinecone_key = '82346dbe-725b-4817-abd7-318ec511d56f'
-    pinecone_index_name = "steve-jobs-emb"
+    openai_key = 'YOUR-OPENAI-KEY'
+    pinecone_key = 'YOUR-PINECONE-KEY'
+    pinecone_index_name = "steve-jobs-emb"  #put your pinecone index name here
     
     # print("Initializing the Head_Agent")
     # Initialize the Head_Agent
